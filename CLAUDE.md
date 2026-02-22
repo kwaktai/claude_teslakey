@@ -1,46 +1,46 @@
 # CLAUDE.md
 
-This file provides guidance for AI assistants (Claude and others) working in this repository.
+이 파일은 이 저장소에서 작업하는 AI 어시스턴트(Claude 등)를 위한 가이드입니다.
 
 ---
 
-## Project Overview
+## 프로젝트 개요
 
-**Repository:** `kwaktai/claude_teslakey`
-**Branch convention:** `claude/<description>-<session-id>`
+**저장소:** `kwaktai/claude_teslakey`
+**브랜치 규칙:** `claude/<설명>-<세션-id>`
 
-This repository is currently in its initial state. As the codebase grows, update this document to reflect the actual structure, dependencies, and conventions.
+이 저장소는 현재 초기 상태입니다. 코드베이스가 성장함에 따라 실제 구조, 의존성, 규칙을 반영하여 이 문서를 업데이트하세요.
 
 ---
 
-## Repository Structure
+## 저장소 구조
 
 ```
 claude_teslakey/
-├── CLAUDE.md          # This file — AI assistant guidelines
-├── README.md          # Human-facing project documentation (to be created)
-└── src/               # Source code (to be created)
+├── CLAUDE.md          # 이 파일 — AI 어시스턴트 가이드라인
+├── README.md          # 사용자 대상 프로젝트 문서 (추후 생성 예정)
+└── src/               # 소스 코드 (추후 생성 예정)
 ```
 
-As the project evolves, maintain this tree to reflect the real layout.
+프로젝트가 발전함에 따라 이 트리를 실제 레이아웃에 맞게 유지하세요.
 
 ---
 
-## Development Workflow
+## 개발 워크플로우
 
-### Branch Strategy
+### 브랜치 전략
 
-- Work exclusively on the branch specified at task start (format: `claude/<description>-<session-id>`).
-- Never push to `main` or another branch without explicit permission.
-- Create the branch locally if it does not yet exist:
+- 작업 시작 시 지정된 브랜치에서만 작업합니다 (형식: `claude/<설명>-<세션-id>`).
+- 명시적인 허가 없이 `main` 또는 다른 브랜치에 푸시하지 마세요.
+- 로컬에 브랜치가 없으면 먼저 생성합니다:
 
 ```bash
-git checkout -b claude/<description>-<session-id>
+git checkout -b claude/<설명>-<세션-id>
 ```
 
-### Commit Convention
+### 커밋 규칙
 
-Use clear, imperative commit messages:
+명확하고 명령형으로 커밋 메시지를 작성하세요:
 
 ```
 Add prompt-caching middleware for system prompts
@@ -48,76 +48,76 @@ Fix cache invalidation when tools array changes
 Update CLAUDE.md with compaction strategy
 ```
 
-### Push Protocol
+### 푸시 프로토콜
 
 ```bash
-git push -u origin <branch-name>
+git push -u origin <브랜치명>
 ```
 
-- If push fails due to a network error, retry up to 4 times with exponential backoff: 2 s → 4 s → 8 s → 16 s.
-- A 403 usually means the branch name does not match the required `claude/` prefix pattern — verify the branch name first.
+- 네트워크 오류로 푸시가 실패하면 지수 백오프로 최대 4회 재시도합니다: 2초 → 4초 → 8초 → 16초.
+- 403 오류는 보통 브랜치명이 `claude/` 접두사 규칙과 맞지 않을 때 발생합니다 — 브랜치명을 먼저 확인하세요.
 
 ### Fetch / Pull
 
 ```bash
-git fetch origin <branch-name>
-git pull origin <branch-name>
+git fetch origin <브랜치명>
+git pull origin <브랜치명>
 ```
 
-Apply the same exponential-backoff retry on network failures.
+네트워크 오류 시 동일한 지수 백오프 재시도를 적용합니다.
 
 ---
 
-## AI Assistant Conventions
+## AI 어시스턴트 규칙
 
-### File Editing
+### 파일 편집
 
-- Read every file before modifying it.
-- Prefer editing existing files over creating new ones.
-- Never add comments, docstrings, or type annotations to code you did not change.
-- Delete unused code completely; do not leave it commented out.
+- 파일을 수정하기 전에 반드시 먼저 읽어야 합니다.
+- 새 파일 생성보다 기존 파일 편집을 우선합니다.
+- 변경하지 않은 코드에 주석, docstring, 타입 어노테이션을 추가하지 마세요.
+- 사용하지 않는 코드는 주석 처리하지 말고 완전히 삭제하세요.
 
-### Task Management
+### 작업 관리
 
-- Use the `TodoWrite` tool to plan multi-step tasks and track progress.
-- Mark a todo `in_progress` before starting it, `completed` immediately after finishing.
-- Only one todo should be `in_progress` at a time.
+- `TodoWrite` 도구를 사용해 여러 단계의 작업을 계획하고 진행 상황을 추적하세요.
+- 작업 시작 전에 `in_progress`로 표시하고, 완료 즉시 `completed`로 표시하세요.
+- 한 번에 하나의 작업만 `in_progress` 상태여야 합니다.
 
-### Asking Questions
+### 질문하기
 
-- Use `AskUserQuestion` when requirements are ambiguous or a decision is needed.
-- In plan mode, clarify unknowns before calling `ExitPlanMode`.
+- 요구사항이 모호하거나 결정이 필요할 때 `AskUserQuestion`을 사용하세요.
+- 플랜 모드에서는 `ExitPlanMode`를 호출하기 전에 불명확한 사항을 먼저 해결하세요.
 
-### Security
+### 보안
 
-- Never introduce command injection, XSS, SQL injection, or other OWASP Top 10 vulnerabilities.
-- Validate only at system boundaries (user input, external APIs); trust internal framework guarantees.
+- 명령어 인젝션, XSS, SQL 인젝션 등 OWASP Top 10 취약점을 절대 도입하지 마세요.
+- 시스템 경계(사용자 입력, 외부 API)에서만 검증하고, 내부 프레임워크 보장은 신뢰하세요.
 
 ---
 
-## Claude API / Anthropic SDK Patterns
+## Claude API / Anthropic SDK 패턴
 
-The following patterns apply when this project uses the Claude API or Anthropic SDK.
+이 프로젝트가 Claude API 또는 Anthropic SDK를 사용할 때 적용되는 패턴입니다.
 
-### Prompt Caching
+### 프롬프트 캐싱
 
-Claude caches the **longest matching prefix** of a conversation. To maximise cache hits:
+Claude는 대화의 **가장 긴 일치 접두사**를 캐싱합니다. 캐시 히트를 최대화하려면:
 
-| Position | Content | Rationale |
-|----------|---------|-----------|
-| 1st | Static system instructions | Never changes → always cached |
-| 2nd | Large static context (docs, schemas) | Changes rarely |
-| 3rd | Conversation history | Changes per turn |
-| Last | Current user message + dynamic data | Always new |
+| 순서 | 콘텐츠 | 이유 |
+|------|--------|------|
+| 1번째 | 정적 시스템 지시사항 | 절대 변경되지 않음 → 항상 캐싱됨 |
+| 2번째 | 대용량 정적 컨텍스트 (문서, 스키마) | 변경 빈도 낮음 |
+| 3번째 | 대화 기록 | 턴마다 변경됨 |
+| 마지막 | 현재 사용자 메시지 + 동적 데이터 | 항상 새로운 내용 |
 
-**Key rules:**
-- Place the `cache_control: {type: "ephemeral"}` breakpoint on the last *stable* block.
-- Adding a `cache_control` marker to a block that changes every turn (e.g. timestamp) **breaks** the cache for everything after it — avoid this.
-- Cache entries survive ~5 minutes (standard) or longer with prompt caching enabled on the API.
+**핵심 규칙:**
+- `cache_control: {type: "ephemeral"}` 중단점은 마지막 *안정적인* 블록에 설정하세요.
+- 매 턴마다 변경되는 블록(예: 타임스탬프)에 `cache_control` 마커를 추가하면 이후 모든 캐시가 **무효화**됩니다 — 피하세요.
+- 캐시 항목은 기본적으로 약 5분간 유지되며, API에서 프롬프트 캐싱을 활성화하면 더 오래 유지됩니다.
 
-### System Prompt Updates Without Cache Invalidation
+### 캐시 무효화 없이 시스템 프롬프트 업데이트
 
-To inject dynamic context into a cached system prompt, append a `<system-reminder>` block **after** the cached content rather than modifying the cached prefix:
+캐싱된 시스템 프롬프트에 동적 컨텍스트를 주입하려면, 캐싱된 접두사를 수정하는 대신 `<system-reminder>` 블록을 **이후에** 추가하세요:
 
 ```python
 messages = [
@@ -132,73 +132,73 @@ messages = [
 ]
 ```
 
-This keeps the expensive cached prefix intact while still surfacing fresh information.
+이렇게 하면 비용이 드는 캐싱된 접두사를 유지하면서도 최신 정보를 반영할 수 있습니다.
 
-### Model and Tool Stability
+### 모델 및 도구 안정성
 
-Changing the model ID or the tools array **invalidates the cache** for all subsequent content. Avoid switching models mid-session unless strictly necessary. For tasks that require a different model, use a sub-agent rather than switching the parent session's model.
+모델 ID나 도구 배열을 변경하면 이후 모든 콘텐츠의 **캐시가 무효화**됩니다. 꼭 필요한 경우가 아니라면 세션 중간에 모델을 변경하지 마세요. 다른 모델이 필요한 작업은 부모 세션의 모델을 변경하는 대신 서브에이전트를 사용하세요.
 
-### Plan Mode Design
+### 플랜 모드 설계
 
-When building an agent that supports a planning phase:
+계획 단계를 지원하는 에이전트를 만들 때:
 
-1. Expose an `EnterPlanMode` tool that sets a `planning` flag and returns a plan scaffold.
-2. Expose an `ExitPlanMode` tool that clears the flag and signals readiness to execute.
-3. Only execute side-effecting tools (file writes, API calls) after `ExitPlanMode` is called.
+1. `planning` 플래그를 설정하고 계획 골격을 반환하는 `EnterPlanMode` 도구를 노출합니다.
+2. 플래그를 해제하고 실행 준비를 신호하는 `ExitPlanMode` 도구를 노출합니다.
+3. `ExitPlanMode` 호출 이후에만 부작용이 있는 도구(파일 쓰기, API 호출)를 실행합니다.
 
 ```python
 tools = [
-    {"name": "EnterPlanMode", "description": "Switch to planning mode. No side effects allowed."},
-    {"name": "ExitPlanMode",  "description": "Approve the plan and begin execution."},
+    {"name": "EnterPlanMode", "description": "플랜 모드로 전환합니다. 부작용이 허용되지 않습니다."},
+    {"name": "ExitPlanMode",  "description": "계획을 승인하고 실행을 시작합니다."},
 ]
 ```
 
-### Deferred Tool Loading
+### 도구 지연 로딩
 
-If your agent has a large tool catalogue, avoid sending all tool definitions on every turn (cost and token overhead). Use a **stub pattern**:
+에이전트에 대규모 도구 카탈로그가 있다면, 매 턴마다 모든 도구 정의를 전송하는 것을 피하세요(비용 및 토큰 오버헤드). **스텁 패턴**을 사용하세요:
 
-1. Send a lightweight `search_tools(query)` stub initially.
-2. On invocation, resolve the real tool schema and inject it into the next turn's `tools` array.
-3. This keeps initial context small and caches the growing tool list as it stabilises.
+1. 처음에는 가벼운 `search_tools(query)` 스텁만 전송합니다.
+2. 호출 시 실제 도구 스키마를 조회해 다음 턴의 `tools` 배열에 주입합니다.
+3. 이렇게 하면 초기 컨텍스트를 작게 유지하고 도구 목록이 안정화되면서 캐싱됩니다.
 
-### Cache-Safe Compaction (Long Sessions)
+### 캐시 안전 압축 (장기 세션)
 
-When a conversation grows beyond the context window:
+대화가 컨텍스트 윈도우를 초과할 때:
 
-1. Summarise **only** the portion of history that falls outside the cached prefix.
-2. Prepend the summary to the existing cached prefix block; do not alter the prefix itself.
-3. The parent process and sub-agents should share the same system-prompt prefix so their caches are compatible.
+1. 캐싱된 접두사 **밖에** 있는 기록 부분만 요약합니다.
+2. 요약을 기존 캐싱된 접두사 블록 앞에 추가합니다; 접두사 자체는 변경하지 마세요.
+3. 부모 프로세스와 서브에이전트는 동일한 시스템 프롬프트 접두사를 공유해야 캐시가 호환됩니다.
 
 ```
-[cached system prompt prefix]  ← never touch
-[summary of old turns]         ← replace old turns with this
-[recent turns]                 ← keep verbatim
+[캐싱된 시스템 프롬프트 접두사]  ← 절대 변경 금지
+[이전 턴 요약]                    ← 이전 턴을 이것으로 대체
+[최근 턴]                         ← 그대로 유지
 ```
 
 ---
 
-## Key Principles at a Glance
+## 핵심 원칙 한눈에 보기
 
-| Principle | Rule |
-|-----------|------|
-| Cache ordering | Static content first, dynamic content last |
-| Cache invalidation | Do not change model, tools, or cached blocks mid-session |
-| Dynamic context | Use `<system-reminder>` appended after the cached block |
-| Model switching | Use sub-agents; never switch the parent session's model |
-| Plan Mode | Gate side effects behind `ExitPlanMode` approval |
-| Tool loading | Defer large tool catalogues; load on demand |
-| Compaction | Summarise only content outside the cached prefix |
-| Commits | Imperative, descriptive; never skip pre-commit hooks |
-| Branches | Always `claude/<description>-<session-id>`; never push to main |
-| File edits | Read first, minimise scope, delete unused code |
+| 원칙 | 규칙 |
+|------|------|
+| 캐시 순서 | 정적 콘텐츠를 먼저, 동적 콘텐츠를 나중에 |
+| 캐시 무효화 | 세션 중간에 모델, 도구, 캐싱된 블록을 변경하지 말 것 |
+| 동적 컨텍스트 | 캐싱된 블록 이후에 `<system-reminder>` 추가 |
+| 모델 전환 | 서브에이전트 사용; 부모 세션 모델 전환 금지 |
+| 플랜 모드 | `ExitPlanMode` 승인 후에만 부작용 허용 |
+| 도구 로딩 | 대규모 도구 카탈로그는 지연 로딩; 필요 시 로드 |
+| 압축 | 캐싱된 접두사 외부 콘텐츠만 요약 |
+| 커밋 | 명령형, 설명적; pre-commit 훅 절대 스킵 금지 |
+| 브랜치 | 항상 `claude/<설명>-<세션-id>`; main에 푸시 금지 |
+| 파일 편집 | 먼저 읽고, 범위 최소화, 미사용 코드 삭제 |
 
 ---
 
-## Updating This File
+## 이 파일 업데이트 방법
 
-Keep CLAUDE.md current as the project evolves:
+프로젝트가 발전함에 따라 CLAUDE.md를 최신 상태로 유지하세요:
 
-- Add the real directory structure once source files exist.
-- Document the chosen language/framework, test runner, and lint commands.
-- Record any project-specific naming conventions or architectural decisions.
-- Update the API patterns section when new integrations are introduced.
+- 소스 파일이 생기면 실제 디렉터리 구조를 추가하세요.
+- 선택한 언어/프레임워크, 테스트 러너, lint 명령어를 문서화하세요.
+- 프로젝트 고유의 네이밍 규칙이나 아키텍처 결정사항을 기록하세요.
+- 새로운 통합이 추가될 때 API 패턴 섹션을 업데이트하세요.
